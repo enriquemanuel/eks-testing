@@ -1,0 +1,11 @@
+additionalArguments:
+  - "--log.level=DEBUG"
+
+dashboard:
+  enable: true
+  ingressRoute: true
+
+tlsStore:
+  default:
+    defaultCertificate:
+      secretName: wildcard-enriquemanuel-me-tls

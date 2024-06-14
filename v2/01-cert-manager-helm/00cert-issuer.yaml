@@ -1,0 +1,59 @@
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-apikey-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  apikey: <redacted>
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: <redacted>
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: enriquemanuel-certs-private-key-staging
+    solvers:
+    - dns01:
+        cloudflare:
+          email: <redacted>
+          apiKeySecretRef:
+            name: cloudflare-apikey-secret
+            key: apikey
+      selector:
+        dnsZones:
+        - 'enriquemanuel.me'
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: <redacted>
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: enriquemanuel-certs-private-key-prod
+    solvers:
+    - dns01:
+        cloudflare:
+          email: <redacted>
+          apiKeySecretRef:
+            name: cloudflare-apikey-secret
+            key: apikey
+      selector:
+        dnsZones:
+        - 'enriquemanuel.me'

@@ -1,0 +1,23 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`argocd.eks.enriquemanuel.me`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: server
+    - kind: Rule
+      match: Host(`argocd.eks.enriquemanuel.me`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: server
+          scheme: h2c

@@ -1,0 +1,10 @@
+global:
+  domain: argocd.eks.enriquemanuel.me
+
+server:
+  ingress:
+    enabled: true
+
+configs:
+  params:
+    server.insecure: true
